@@ -1,6 +1,0 @@
-addtocart="(//button[@class='button btn-cart']//span[text()='Add to Cart'])[2]"
-qtybox="//input[@class='input-text qty']"
-updatebutton="//span[text()='Update']"
-error_text1="//p[@class='item-msg error']"
-emptycart="//span[text()='Empty Cart']"
-emptymessage="//h1[text()='Shopping Cart is Empty']"
