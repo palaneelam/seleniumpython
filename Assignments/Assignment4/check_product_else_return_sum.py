@@ -1,6 +1,5 @@
 # Given two integer numbers, return their product only if the product is equal to or lower than 1000. Otherwise, return their sum
 
-# get the product of 2 integers
 def get_product_sum(num1, num2):
     """
         Return the product of two numbers if it is less than or equal to 1000.
