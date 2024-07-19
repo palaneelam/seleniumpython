@@ -5,7 +5,6 @@ print("=======================_Assignment-2_==========================")
 
 sum = 0
 for i in range (10):
-    # print(i)
     if i == 0:
         priev_num = 0
         curr_num = 0
