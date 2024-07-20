@@ -1,0 +1,30 @@
+name = input("What is your name?:")
+price = input("What is your bid price?:")
+bidding_finished = False
+bids = {}
+
+# bidding_record ={"Neelam": 100, "Ragini":200}
+def find_highest_bidder(bidding_record):
+    highest_bid = 0
+
+    for bidder in bidding_record:
+        bid_amount = int(bidding_record[bidder])
+        if (int(bid_amount) > int(highest_bid)):
+            highest_bid = bid_amount
+            winner = bidder
+            print(f"Winner is {winner} with a bid of {highest_bid} value")
+            break
+
+
+
+while not bidding_finished:
+    name = input("What is your name?:")
+    price = input("What is your bid price?:")
+    bids[name] = price
+    should_continue = input("Are there any more bidders? Type Y or N:")
+    if should_continue == "N":
+        bidding_finished = True
+        find_highest_bidder(bids)
+
+    elif should_continue == 'Y':
+        print()
