@@ -1,1 +1,1 @@
-# Write a Python program to print the Fibonacci sequence up to n terms.
+# Write a Python prd    ogram to print the Fibonacci sequence up to n terms.
