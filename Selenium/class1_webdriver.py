@@ -63,8 +63,8 @@ headertext = driver.find_element(By.CSS_SELECTOR, "h1.entry-title").text
 print("header text is:", headertext)
 
 # 3. b. css selector by using tag and attribute
-# headertext = driver.find_element(By.CSS_SELECTOR, "h1[class='entry-title]").text
-# print("header text is:", headertext)
+headertext = driver.find_element(By.CSS_SELECTOR, "h1[class='entry-title']").text
+print("header text is:", headertext)
 driver.find_element(By.CSS_SELECTOR, "input[id='name']").send_keys("MD")
 time.sleep(5)
 
