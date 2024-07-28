@@ -10,5 +10,3 @@ elif num2 > num1 and num2 > num3:
     print(f"Result by Method-1 --> {num2} is greatest in {num1}, {num2}, {num3}")
 else:
     print(f"Result by Method-1 --> {num3} is greatest in {num1}, {num2}, {num3}")
-
-

@@ -1,7 +1,7 @@
 # # Write a Python program to count the number of vowels in a string.
 # *************************************************************************
 # Method-1
-user_text = "deep"
+user_text = "Ritu pal"
 user_text = user_text.lower()
 print(user_text)
 

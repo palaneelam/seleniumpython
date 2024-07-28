@@ -1,18 +1,7 @@
-# Write a Python program to merge two lists.
+# Write a Python program to find the common elements between two lists.
 # *************************************************************************
 # Method-1
-list_1 = [1, 2, 3, 17]
-list_2 = [5, 4, 22, 2]
-merged_list = list_1 + list_2
-print(merged_list)
-
-txt_list_1 = ["I", "Am"]
-txt_list_2 = ["Automation", "QA"]
-merged_txt_list = txt_list_1 + txt_list_2
-print(merged_txt_list)
-# merged_txt_list.sort()
-# print(merged_txt_list)
-
+print("Test")
 
 # *************************************************************************
 # Method-2

@@ -3,10 +3,13 @@
 # Method-1
 list_1 = [1, 2, 3]
 size = list_1.__len__()
-print(f"Length of list is: {size}")
+print(f"Method-1 >> Length of list is: {size}")
 
 # *************************************************************************
 # Method-2
+list_2 = ["QA", "Test", "Automation"]
+size2 = list_2.__len__()
+print(f"Method-2 >> Length of list is: {size2}")
 
 
 # *************************************************************************

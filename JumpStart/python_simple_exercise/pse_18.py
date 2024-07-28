@@ -1,22 +1,27 @@
-# Write a Python program to merge two lists.
+# Write a Python program to find the index of an element in a list.
 # *************************************************************************
 # Method-1
-list_1 = [1, 2, 3, 17]
-list_2 = [5, 4, 22, 2]
-merged_list = list_1 + list_2
-print(merged_list)
+my_list = [2, 4, 6, 8, 10]
+print(my_list)
+size = my_list.__len__()
+# print(my_list.__len__())
 
-txt_list_1 = ["I", "Am"]
-txt_list_2 = ["Automation", "QA"]
-merged_txt_list = txt_list_1 + txt_list_2
-print(merged_txt_list)
-# merged_txt_list.sort()
-# print(merged_txt_list)
+element = 12
+index = 0
+result = ""
 
+for i in range(0, size):
+    if element == my_list[i]:
+        result = "Existed"
+        index = i
+    else:
+        result = "NOT Existed"
+        index = "OUT OF INDEX"
+
+print(f"Method-1 >> Subject element is '{result}' and INDEX is '{index}'")
 
 # *************************************************************************
 # Method-2
-
 
 # *************************************************************************
 # Method-3

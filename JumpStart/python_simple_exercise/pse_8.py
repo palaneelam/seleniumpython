@@ -4,10 +4,17 @@
 # Method-1
 list_num = [2, 3, 1, 22, 12]
 print(list_num)
+size = list_num.__len__()
+print(size)
+
+# print(list_num[4])
+# print(list_num[size-1])
+# print(list_num[-1])
 
 list_num.sort()
 print(list_num)
 print(list_num[-1])
+print(list_num[size-2])
 
 # *************************************************************************
 # Method-2
