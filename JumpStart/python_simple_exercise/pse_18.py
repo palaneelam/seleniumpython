@@ -4,13 +4,15 @@
 my_list = [2, 4, 6, 8, 10]
 print(my_list)
 size = my_list.__len__()
-# print(my_list.__len__())
+print(my_list.__len__())
 
-element = 12
+element = 2
 index = 0
 result = ""
 
 for i in range(0, size):
+    print(element)
+    print(i)
     if element == my_list[i]:
         result = "Existed"
         index = i

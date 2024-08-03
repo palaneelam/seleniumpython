@@ -1,7 +1,17 @@
 # Write a Python program to convert a list to a tuple.
 # *************************************************************************
 # Method-1
-print("Test")
+my_list = [2, 4, 6, 7]
+print(f"My List is: {my_list}")
+# print(my_list[0])
+# print(my_list[1])
+# print(my_list[2])
+# print(my_list[3])
+
+my_tuple = (my_list[0],my_list[1],my_list[2],my_list[3])
+# my_tuple.
+print(f"My_tuple is : {my_tuple}")
+
 
 # *************************************************************************
 # Method-2
