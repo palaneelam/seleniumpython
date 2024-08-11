@@ -21,6 +21,7 @@ def openApplication(driver, url):
 
 chdriver = launchbrowser('chrome')
 openApplication(chdriver, URL)
+print("calling......")
 
 chdriver.find_element(By.ID, "name").send_keys("Neelam")
 chdriver.find_element(By.ID, "email").send_keys("neelam@testautomationcoach.com")
