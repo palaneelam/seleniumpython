@@ -32,7 +32,7 @@
 
 # *************************************************************************
 # Method-3
-orig_list = [2, 4, 6, 8, 10]
+orig_list = [2, 4, 6, 4, 10]
 size = orig_list.__len__()
 print("Size of List is: ",size)
 uniq_list = []
