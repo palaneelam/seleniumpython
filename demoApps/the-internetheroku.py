@@ -1,8 +1,10 @@
 import os
 import time
+from selenium.webdriver.support import expected_conditions as EC
 
 from selenium import webdriver
 from selenium.webdriver import ActionChains, Keys
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.select import Select
@@ -624,8 +626,21 @@ time.sleep(10)
 
 # *************************   33rd link - Multiple Windows
 driver.find_element(By.LINK_TEXT, "Multiple Windows").click()
+driver.find_element(By.LINK_TEXT, "Click Here").click()
 
+main_window = driver.current_window_handle
+all_windows = driver.window_handles
 
+for window in all_windows:
+    if window != main_window:
+        driver.switch_to.window(window)
+        break
+
+print(f"New Window Title: {driver.title}")
+
+driver.switch_to.window(main_window)
+
+print(f"Main Window Title: {driver.title}")
 
 driver.back()
 time.sleep(10)
@@ -633,6 +648,31 @@ time.sleep(10)
 # *************************   34th link - Nested Frames
 driver.find_element(By.LINK_TEXT, "Nested Frames").click()
 
+driver.switch_to.frame("frame-top")
+driver.switch_to.frame("frame-left")
+left_frame_text = driver.find_element(By.TAG_NAME, "body").text
+print("Left Frame Text:", left_frame_text)
+
+driver.switch_to.parent_frame()
+
+driver.switch_to.frame("frame-middle")
+
+middle_frame_text = driver.find_element(By.ID, "content").text
+print("Middle Frame Text:", middle_frame_text)
+
+driver.switch_to.parent_frame()
+
+driver.switch_to.frame("frame-right")
+
+right_frame_text = driver.find_element(By.TAG_NAME, "body").text
+print("Right Frame Text:", right_frame_text)
+
+driver.switch_to.default_content()
+
+driver.switch_to.frame("frame-bottom")
+
+bottom_frame_text = driver.find_element(By.TAG_NAME, "body").text
+print("Bottom Frame Text:", bottom_frame_text)
 
 
 driver.back()
@@ -641,14 +681,34 @@ time.sleep(10)
 # *************************   35th link - Notification Messages
 driver.find_element(By.LINK_TEXT, "Notification Messages").click()
 
+def click_and_get_message():
+    driver.find_element(By.LINK_TEXT, 'Click here').click()
+    time.sleep(1)
+    message = driver.find_element(By.ID, 'flash').text
+    return message
 
+for i in range(5):
+    msg = click_and_get_message()
+    print(f"Attempt {i+1}: {msg}")
 
 driver.back()
 time.sleep(10)
 
 # *************************   36th link - Redirect Link
 driver.find_element(By.LINK_TEXT, "Redirect Link").click()
+redirect_link = driver.find_element(By.LINK_TEXT, 'here')
+redirect_link.click()
 
+time.sleep(3)
+
+status_code_text = driver.find_element(By.TAG_NAME, 'h3').text
+assert 'Status Codes' in status_code_text, "Redirection failed or incorrect page"
+
+status_200_link = driver.find_element(By.LINK_TEXT, '200')
+status_200_link.click()
+
+result_text = driver.find_element(By.TAG_NAME, 'p').text
+print(result_text)
 
 
 driver.back()
@@ -656,7 +716,42 @@ time.sleep(10)
 
 # *************************   37th link - Secure File Download
 driver.find_element(By.LINK_TEXT, "Secure File Download").click()
+wait = WebDriverWait(driver, 10)
 
+chrome_options = Options()
+download_dir = r"C:\Users\Neelam\PycharmProjects\SeleniumPython\downloads"
+
+chrome_prefs = {
+    "download.default_directory": download_dir,
+    "profile.default_content_settings.popups": 0,
+    "download.prompt_for_download": False,
+    "safebrowsing.enabled": True
+}
+
+chrome_options.add_experimental_option("prefs", chrome_prefs)
+
+driver = webdriver.Chrome(options=chrome_options)
+secure_url = f"https://admin:admin@the-internet.herokuapp.com/download_secure"
+
+driver.get(secure_url)
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".example a")))
+
+# Locate the first file link and click to download
+file_link = driver.find_element(By.CSS_SELECTOR, ".example a")
+file_link.click()
+
+WebDriverWait(driver, 10).until(lambda driver: os.path.exists(os.path.join(download_dir, file_link.text)))
+# ********* if above line gets complicated - replace with below commented code *****************
+
+# file_path = os.path.join(download_dir, file_link.text)
+#
+# for _ in range(10):
+#     if os.path.exists(file_path):
+#         print("File has been downloaded.")
+#         break
+#     time.sleep(1)
+# else:
+#     print("File download failed or took too long.")
 
 
 driver.back()
@@ -664,7 +759,26 @@ time.sleep(10)
 
 # *************************   38th link - Shadow DOM
 driver.find_element(By.LINK_TEXT, "Shadow DOM").click()
+# Locate the first 'my-paragraph' custom element (shadow host)
+shadow_host = driver.find_element(By.TAG_NAME, 'my-paragraph')
 
+# Access the shadow root using JavaScript
+shadow_root = driver.execute_script("return arguments[0].shadowRoot", shadow_host)
+
+# Find the paragraph element inside the shadow root
+paragraph = shadow_root.find_element(By.CSS_SELECTOR, 'p')
+
+# Retrieve and print the text content of the paragraph
+print("Text inside the shadow DOM:", paragraph.text)
+
+# Interact with the content in the slot
+slot_content = shadow_root.find_element(By.CSS_SELECTOR, 'slot[name="my-text"]')
+print("Slot content:", slot_content.text)
+
+# If you want to interact with the content passed into the slot (e.g., a span or ul element)
+assigned_nodes = driver.execute_script("return arguments[0].assignedNodes()", slot_content)
+for node in assigned_nodes:
+    print("Assigned Node Content:", node.text)
 
 
 driver.back()
@@ -672,8 +786,22 @@ time.sleep(10)
 
 # *************************   39th link - Shifting Content
 driver.find_element(By.LINK_TEXT, "Shifting Content").click()
+option1_link = driver.find_element(By.PARTIAL_LINK_TEXT, 'Example 1')
+option1_link.click()
 
+driver.implicitly_wait(2)
+option1_content = driver.find_element(By.TAG_NAME, 'ul').text
+print("Content after clicking 'Option 1':", option1_content)
 
+driver.get("https://the-internet.herokuapp.com/shifting_content")
+
+option2_link = driver.find_element(By.PARTIAL_LINK_TEXT, 'Example 3')
+option2_link.click()
+
+driver.implicitly_wait(2)
+
+option2_content = driver.find_element(By.CSS_SELECTOR, '.large-centered').text
+print("Content after clicking 'Option 2':", option2_content)
 
 driver.back()
 time.sleep(10)
@@ -689,6 +817,34 @@ time.sleep(10)
 # *************************   41st link - Sortable Data Tables
 driver.find_element(By.LINK_TEXT, "Sortable Data Tables").click()
 
+table = driver.find_element(By.ID, "table1")
+rows = table.find_elements(By.TAG_NAME, "tr")
+
+for row in rows:
+    columns = row.find_elements(By.TAG_NAME, "td")
+    for column in columns:
+        print(column.text, end=" | ")
+    print()
+
+due_header = table.find_element(By.XPATH, "//span[text()='Due']")
+due_header.click()
+
+rows = table.find_elements(By.TAG_NAME, "tr")
+print("\nTable after sorting by 'Due':")
+for row in rows:
+    columns = row.find_elements(By.TAG_NAME, "td")
+    for column in columns:
+        print(column.text, end=" | ")
+    print()
+
+for row in rows:
+    if "Tim Conway" in row.text:
+        print("\nRow with 'Tim Conway':")
+        columns = row.find_elements(By.TAG_NAME, "td")
+        for column in columns:
+            print(column.text, end=" | ")
+        print()
+        break
 
 
 driver.back()
@@ -696,8 +852,19 @@ time.sleep(10)
 
 # *************************   42nd link - Status Codes
 driver.find_element(By.LINK_TEXT, "Status Codes").click()
+status_codes = ['200', '301', '404', '500']
 
+for code in status_codes:
+    status_link = driver.find_element(By.PARTIAL_LINK_TEXT, code)
 
+    status_link.click()
+
+    content = driver.find_element(By.TAG_NAME, 'p').text
+
+    if code in content:
+        print(f"Status code {code} page verified successfully.")
+    else:
+        print(f"Status code {code} page verification failed.")
 
 driver.back()
 time.sleep(10)
@@ -705,7 +872,10 @@ time.sleep(10)
 # *************************   43rd link - Typos
 driver.find_element(By.LINK_TEXT, "Typos").click()
 
+paragraphs = driver.find_elements(By.TAG_NAME, 'p')
 
+for index, paragraph in enumerate(paragraphs):
+    print(f"Paragraph {index + 1}: {paragraph.text}")
 
 driver.back()
 time.sleep(10)
@@ -713,7 +883,20 @@ time.sleep(10)
 # *************************   44th link - WYSIWYG Editor
 driver.find_element(By.LINK_TEXT, "WYSIWYG Editor").click()
 
+iframe = driver.find_element(By.CSS_SELECTOR, "iframe.tox-edit-area__iframe")
+driver.switch_to.frame(iframe)
 
+editor_body = driver.find_element(By.CSS_SELECTOR, "body")
+
+editor_body.clear()
+
+# Type text into the editor
+editor_body.send_keys("Hello, this is a test message!")
+
+editor_body.send_keys(Keys.ENTER)
+editor_body.send_keys("This is another line.")
+
+driver.switch_to.default_content()
 
 driver.back()
 time.sleep(10)
